@@ -1,7 +1,7 @@
 const {app, Tray, Menu, BrowserWindow, ipcMain} = require('electron');
 const path = require('path');
 
-const iconPath = path.join(__dirname, 'favicon.ico');
+const iconPath = path.join(__dirname, 'icon.png');
 let appIcon = null;
 let win = null;
 
@@ -18,10 +18,15 @@ if (shouldQuit) {
   app.quit()
 }
 
-app.on('ready', function(){
+
+app.on('activate', ()=> win.show());
+
+app.on('ready', ()=> {
   win = new BrowserWindow({width: 1280, minWidth:800, minHeight:600, height: 800, show: true, frame:false, icon: "./favicon.ico"});
   win.loadURL("https://web.comms.razerzone.com/");
-  appIcon = new Tray(iconPath);
+
+ 
+  
   var contextMenu = Menu.buildFromTemplate([
     /*{
       label: 'Item2',
@@ -51,11 +56,14 @@ app.on('ready', function(){
       }
     }
   ]);
+  /*
+  appIcon = new Tray(iconPath);
   appIcon.on('click', () => {
   win.isVisible() ? win.hide() : win.show()
 })
   appIcon.setToolTip('Razer Comms');
-  appIcon.setContextMenu(contextMenu);
+  appIcon.setContextMenu(contextMenu);\
+  */
 });
 
 ipcMain.on('minimize_mainWindow', (event, arg) => {

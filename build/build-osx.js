@@ -1,5 +1,4 @@
 const packager = require('electron-packager');
-
 const options = {
     asar: true,
     platform: 'darwin',
@@ -7,11 +6,14 @@ const options = {
     dir: '.',
     out: './release/',
     overwrite: true,
-    icon: 'favicon',
+    icon: "icon",
     ignore: '^/(redist|plugins|release|build)$',
-    name: 'Razer Comms'
+    name: 'Razer Comms',
+    prune: true
 };
 
-packager(options, function () {
-
+packager(options, (err, paths) => {
+    if(err){
+        throw err;
+    }
 });
