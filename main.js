@@ -5,8 +5,21 @@ const iconPath = path.join(__dirname, 'favicon.ico');
 let appIcon = null;
 let win = null;
 
+
+const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
+  // Someone tried to run a second instance, we should focus our window.
+  if (win) {
+    if (win.isMinimized()) win.restore()
+    win.focus()
+  }
+})
+
+if (shouldQuit) {
+  app.quit()
+}
+
 app.on('ready', function(){
-  win = new BrowserWindow({width: 800, height: 800, show: true, frame:false, icon: "./favicon.ico"});
+  win = new BrowserWindow({width: 1280, minWidth:800, minHeight:600, height: 800, show: true, frame:false, icon: "./favicon.ico"});
   win.loadURL("https://web.comms.razerzone.com/");
   appIcon = new Tray(iconPath);
   var contextMenu = Menu.buildFromTemplate([

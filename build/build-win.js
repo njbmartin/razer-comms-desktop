@@ -8,9 +8,10 @@ const options = {
     out: './release/',
     overwrite: true,
     icon: 'favicon.ico',
-    ignore: '^/(redist|plugins)$',
+    ignore: '^/(redist|plugins|release|build)$',
     prune: true,
     "app-version": pjson.version,
+    
     "build-version": pjson.version + "."  + pjson.appVersion.build
 };
 
