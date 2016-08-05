@@ -1,10 +1,10 @@
 # Razer Comms Desktop
 
-This project is designed to package the new web version of Razer Comms into a fully functional desktop application using the Electron framework.
+This project is designed to package the new web version of Razer Comms into a fully functional desktop application using the [Electron](http://electron.atom.io/) framework.
 
 ## Getting Started
 
-You can download the installer from [Releases](https://github.com/njbmartin/razer-comms-desktop/releases), or if you're feeling adventurous, you can build this project yourself to see how it's created. At the very least, you will need a code editor such as Visual Studio Code, and Node.js.
+You can download the installer from [Releases](https://github.com/njbmartin/razer-comms-desktop/releases), or if you're feeling adventurous, you can build this project yourself to see how it's created. At the very least, you will need a code editor such as [Visual Studio Code](https://code.visualstudio.com/), and you'll also need [Node.js](https://nodejs.org/).
 
 1. Clone this repository
 2. Open up the folder within Visual Studio Code
