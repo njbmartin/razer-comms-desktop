@@ -6,11 +6,11 @@ let appIcon = null;
 let win = null;
 
 app.on('ready', function(){
-  win = new BrowserWindow({show: true, frame:false, icon: "./favicon.ico"});
+  win = new BrowserWindow({width: 800, height: 800, show: true, frame:false, icon: "./favicon.ico"});
   win.loadURL("https://web.comms.razerzone.com/");
   appIcon = new Tray(iconPath);
   var contextMenu = Menu.buildFromTemplate([
-    {
+    /*{
       label: 'Item2',
       submenu: [
         { label: 'submenu1' },
@@ -20,7 +20,7 @@ app.on('ready', function(){
     {
       label: 'Item3',
       type: 'radio',
-      checked: true
+      checked: false
     },
     {
       label: 'Toggle DevTools',
@@ -29,7 +29,7 @@ app.on('ready', function(){
         win.show();
         win.toggleDevTools();
       }
-    },
+    },*/
     { label: 'Quit',
       accelerator: 'Command+Q',
       selector: 'terminate:',
@@ -41,7 +41,7 @@ app.on('ready', function(){
   appIcon.on('click', () => {
   win.isVisible() ? win.hide() : win.show()
 })
-  appIcon.setToolTip('This is my application.');
+  appIcon.setToolTip('Razer Comms');
   appIcon.setContextMenu(contextMenu);
 });
 
@@ -63,6 +63,11 @@ ipcMain.on('show_mainWindow', (event, arg) => {
 ipcMain.on('hide_mainWindow', (event, arg) => {
   console.log(arg)  // prints "ping"
   win.hide();
+});
+
+ipcMain.on('quit_app', (event, arg) => {
+  console.log(arg)  // prints "ping"
+  app.quit();
 });
 
 ipcMain.on('show-notification', (event, arg) => {
