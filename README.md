@@ -1,4 +1,5 @@
-![Razer Comms](https://web.comms.razerzone.com/assets/images/watermark.svg)
+<img src='https://web.comms.razerzone.com/assets/images/watermark.svg' width='auto' height='240px' />
+
 This project is designed to package the new web version of Razer Comms into a fully functional desktop application using the [Electron](http://electron.atom.io/) framework.
 
 ## Getting Started
