@@ -1,0 +1,16 @@
+<script type='text/javascript'>
+const {ipcRenderer} = require('electron')
+let myNotification = null
+ipcRenderer.on('notification', (event, message) => {
+
+    let options = {
+        title: message.name,
+        body: message.message,
+        icon: message.icon
+    }
+
+      console.log(message.name, message.message)
+      myNotification = new Notification(message.name, options)
+    })
+
+</script>
