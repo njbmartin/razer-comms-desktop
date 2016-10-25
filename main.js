@@ -11,7 +11,7 @@ var AutoLaunch = require('auto-launch')
 
 const iconPath = {
   'darwin': path.join(__dirname, 'icon-small.png'),
-  'win': path.join(__dirname, 'favicon.ico')
+  'win32': path.join(__dirname, 'favicon.ico')
 }
 let appIcon = null
 let win = null
@@ -21,6 +21,7 @@ const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
   // Someone tried to run a second instance, we should focus our window.
   if (win) {
     if (win.isMinimized()) win.restore()
+    win.show()
     win.focus()
   }
 })
@@ -32,7 +33,9 @@ if (shouldQuit) {
 }
 
 app.on('activate', () => {
-  app.dock.setBadge('')
+  if(process.platform == 'darwin'){
+    app.dock.setBadge('')
+  }
   win.show()
 })
 
@@ -96,9 +99,12 @@ createNotification()
   ])
 
   // set dock icon
+  console.log('platform', process.platform)
   appIcon = new Tray(iconPath[process.platform])
   appIcon.on('click', () => {
-    app.dock.setBadge()
+    if(process.platform == 'darwin'){
+      app.dock.setBadge('')
+    }
     win.isVisible() ? win.hide() : win.show()
   })
   appIcon.setToolTip('Razer Comms')
@@ -106,7 +112,6 @@ createNotification()
 })
 
 ipcMain.on('minimize_mainWindow', () => {
-  console.log(arg) // prints "ping"
   win.minimize()
 })
 
@@ -119,7 +124,9 @@ ipcMain.on('maximize_mainWindow', () => {
 })
 
 ipcMain.on('show_mainWindow', () => {
+  if (win.isMinimized()) win.restore()
   win.show()
+  win.focus()
 })
 
 ipcMain.on('hide_mainWindow', () => {
@@ -132,9 +139,10 @@ ipcMain.on('quit_app', (event, arg) => {
 })
 
 ipcMain.on('show-notification', (event, arg) => {
-  app.dock.setBadge('•')
-  app.dock.bounce()
-
+  if(process.platform == 'darwin'){
+    app.dock.setBadge('•')
+    app.dock.bounce()
+  }
   showNotification(arg)
 
 })
@@ -152,5 +160,6 @@ notification.on('closed', () => {
 }
 
 function showNotification(arg){
+  if(win.isFocused()) return
   notification.webContents.send('notification', arg)
 }

@@ -1,8 +1,10 @@
 <script type='text/javascript'>
 const {ipcRenderer} = require('electron')
 let myNotification = null
-ipcRenderer.on('notification', (event, message) => {
+let showing = false
 
+ipcRenderer.on('notification', (event, message) => {
+    if(showing) return
     let options = {
         title: message.name,
         body: message.message,
@@ -11,6 +13,13 @@ ipcRenderer.on('notification', (event, message) => {
 
       console.log(message.name, message.message)
       myNotification = new Notification(message.name, options)
+      showing = true
+      myNotification.onclick= function(){
+          ipcRenderer.send('show_mainWindow')
+      }
+      setTimeout(()=>{
+          showing = false
+      },2000)
     })
 
 </script>

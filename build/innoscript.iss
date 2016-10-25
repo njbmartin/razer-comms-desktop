@@ -24,7 +24,7 @@ AppPublisher={#AppPublisher}
 AppPublisherURL={#AppURL}
 AppSupportURL={#AppURL}
 AppUpdatesURL={#AppURL}
-DefaultDirName={pf}\{#CompanyName}
+DefaultDirName={pf}\{#CompanyName}\{#AppName}
 DefaultGroupName={#CompanyName}
 DisableDirPage=yes
 DisableFinishedPage=yes
@@ -36,7 +36,8 @@ OutputBaseFilename={#FileName}-setup
 SetupIconFile=../favicon.ico
 Compression=lzma/ultra64
 SolidCompression=yes
-;WizardSmallImageFile=./nowtv.bmp
+;WizardSmallImageFile=./image.bmp
+UninstallDisplayIcon={app}\Razer Comms.exe
 
 [Code]
 
