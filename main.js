@@ -5,9 +5,10 @@ const {
   BrowserWindow,
   ipcMain
 } = require('electron')
+
 const path = require('path')
-var open = require('open')
-var AutoLaunch = require('auto-launch')
+const open = require('open')
+const settings = require('electron-settings')
 
 const iconPath = {
   'darwin': path.join(__dirname, 'icon-small.png'),
@@ -16,6 +17,13 @@ const iconPath = {
 let appIcon = null
 let win = null
 let notification = null
+
+settings.defaults({
+  startup: {
+    autolaunch: false,
+    autolaunchsystray: false
+  }
+})
 
 const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
   // Someone tried to run a second instance, we should focus our window.
@@ -26,37 +34,39 @@ const shouldQuit = app.makeSingleInstance((commandLine, workingDirectory) => {
   }
 })
 
-
-
 if (shouldQuit) {
   app.quit()
 }
 
 app.on('activate', () => {
-  if(process.platform == 'darwin'){
+  if (process.platform === 'darwin') {
     app.dock.setBadge('')
   }
   win.show()
 })
 
 app.on('ready', () => {
+  settings.applyDefaultsSync()
+
   app.setLoginItemSettings({
-    openAtLogin: true
+    openAtLogin: settings.getSync('startup.autolaunch')
   })
 
-
-createNotification()
+  createNotification()
 
   win = new BrowserWindow({
     width: 1280,
     minWidth: 800,
     minHeight: 600,
     height: 800,
-    show: true,
-    frame: false
+    show: !settings.getSync('startup.autolaunchsystray'),
+    frame: false,
+    webSecurity: true,
+    allowDisplayingInsecureContent: true,
+    allowRunningInsecureContent: true
   })
   win.loadURL('https://web.comms.razerzone.com/')
-  
+
   win.webContents.on('new-window', function (event, url) {
     event.preventDefault()
     open(url)
@@ -99,10 +109,9 @@ createNotification()
   ])
 
   // set dock icon
-  console.log('platform', process.platform)
   appIcon = new Tray(iconPath[process.platform])
   appIcon.on('click', () => {
-    if(process.platform == 'darwin'){
+    if (process.platform === 'darwin') {
       app.dock.setBadge('')
     }
     win.isVisible() ? win.hide() : win.show()
@@ -116,7 +125,7 @@ ipcMain.on('minimize_mainWindow', () => {
 })
 
 ipcMain.on('maximize_mainWindow', () => {
-  if (process.platform != 'darwin') {
+  if (process.platform !== 'darwin') {
     win.isMaximized() ? win.unmaximize() : win.maximize()
   } else {
     win.setFullScreen(!win.isFullScreen())
@@ -139,27 +148,39 @@ ipcMain.on('quit_app', (event, arg) => {
 })
 
 ipcMain.on('show-notification', (event, arg) => {
-  if(process.platform == 'darwin'){
+  if (process.platform === 'darwin') {
     app.dock.setBadge('•')
     app.dock.bounce()
   }
   showNotification(arg)
-
 })
 
-function createNotification() {
-    notification = new BrowserWindow({
+ipcMain.on('settings-get', (event, arg) => {
+  console.log('requested settings', arg, settings.getSync('startup.' + arg))
+  event.sender.send('settings-get', arg, settings.getSync('startup.' + arg))
+})
+
+ipcMain.on('settings-change', (event, arg, s) => {
+  console.log('settings change', arg, s)
+  settings.setSync('startup', {
+    autolaunch: s.isAutoLaunch,
+    autolaunchsystray: s.isSysTray
+  })
+})
+
+function createNotification () {
+  notification = new BrowserWindow({
     show: false
   })
 
-notification.loadURL(`file://${__dirname}/notification.html`)
-notification.on('closed', () => {
-  console.log('closed notification')
-  notification = null
-})
+  notification.loadURL(`file://${__dirname}/notification.html`)
+  notification.on('closed', () => {
+    console.log('closed notification')
+    notification = null
+  })
 }
 
-function showNotification(arg){
-  if(win.isFocused()) return
+function showNotification (arg) {
+  if (win.isFocused() && !win.isMinimized()) return
   notification.webContents.send('notification', arg)
 }

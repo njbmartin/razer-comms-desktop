@@ -15,5 +15,8 @@ const options = {
 }
 
 packager(options, function (err, appPaths) {
+  if (err) {
+    console.error(err)
+  }
   console.log(appPaths)
 })
