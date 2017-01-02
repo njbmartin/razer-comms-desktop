@@ -63,8 +63,8 @@ begin
       'SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{#SetupSetting("AppId")}_is1',
       'UninstallString', uninstaller);
     ShellExec('runas', uninstaller, '/SILENT', '', SW_HIDE, ewWaitUntilTerminated, ErrorCode);
-    Result := True;
   end;
+  Result := True;
 end;
 
 [Languages]

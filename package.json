@@ -1,9 +1,9 @@
 {
   "name": "com.razerzone.comms",
   "productName": "Razer Comms",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "appVersion": {
-    "build": 6
+    "build": 7
   },
   "description": "Razer Comms Desktop Application",
   "main": "main.js",
