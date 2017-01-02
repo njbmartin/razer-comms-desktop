@@ -1,6 +1,6 @@
 <img src='https://web.comms.razerzone.com/assets/images/watermark.svg' width='auto' height='240px' />
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Build Status](https://travis-ci.org/njbmartin/razer-comms-desktop.svg?branch=master)](https://travis-ci.org/njbmartin/razer-comms-desktop) ![Dependencies](https://david-dm.org/njbmartin/razer-comms-desktop.svg) [![CircleCI](https://circleci.com/gh/njbmartin/razer-comms-desktop.svg?style=svg)](https://circleci.com/gh/njbmartin/razer-comms-desktop)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Build Status](https://travis-ci.org/njbmartin/razer-comms-desktop.svg?branch=master)](https://travis-ci.org/njbmartin/razer-comms-desktop) ![Dependencies](https://david-dm.org/njbmartin/razer-comms-desktop.svg) [![Build Status](https://travis-ci.org/njbmartin/razer-comms-desktop.svg?branch=master)](https://travis-ci.org/njbmartin/razer-comms-desktop) [![CircleCI](https://circleci.com/gh/njbmartin/razer-comms-desktop.svg?style=svg)](https://circleci.com/gh/njbmartin/razer-comms-desktop)
 
 This project is designed to package the new web version of Razer Comms into a fully functional desktop application using the [Electron](http://electron.atom.io/) framework.
 
