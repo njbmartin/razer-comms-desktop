@@ -8,12 +8,13 @@
   "description": "Razer Comms Desktop Application",
   "main": "main.js",
   "scripts": {
-    "start": "electron main.js",
     "build:osx": "node ./build/build-osx.js",
     "build:win": "node ./build/build-win.js",
-    "setup:win": " node ./build/inno-setup.js",
+    "lint:fix": "standard --fix",
     "release:win": "npm run build:win & npm run setup:win",
-    "lint:fix": "standard --fix"
+    "setup:win": " node ./build/inno-setup.js",
+    "start": "electron main.js",
+    "test": "standard"
   },
   "repository": {
     "type": "git",
